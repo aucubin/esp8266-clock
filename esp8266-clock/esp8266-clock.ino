@@ -11,7 +11,8 @@ const char *password = "password";
 
 WiFiUDP ntpUdp;
 
-NTPClient timeClient(ntpUdp);
+// set timeoffset to +1h. needs to be set to 7200 for summer time
+NTPClient timeClient(ntpUdp, 3600);
 
 TM1637Display display(clk_pin, dio_pin);
 
@@ -60,6 +61,5 @@ void loop() {
   }
 
   display.setSegments(data);
-  
   delay(1000);
 }
