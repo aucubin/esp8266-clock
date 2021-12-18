@@ -16,14 +16,28 @@ NTPClient timeClient(ntpUdp, 3600);
 
 TM1637Display display(clk_pin, dio_pin);
 
-void setup() {
-  Serial.begin(115200);
+const int wifi_check_interval = 30;
+int current_wifi_check_count = 0;
+
+void connectToWifi(){
+  Serial.println("Connecting to WiFi...");
   WiFi.begin(ssid, password);
 
   while(WiFi.status() != WL_CONNECTED){
     delay(1000);
     Serial.print(".");
   }
+
+  Serial.println();
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  connectToWifi();
 
   timeClient.begin();
 
@@ -33,6 +47,15 @@ void setup() {
 }
 
 void loop() {
+  if(current_wifi_check_count == wifi_check_interval){
+    current_wifi_check_count = 0;
+    if(WiFi.status() != WL_CONNECTED){
+      connectToWifi();
+    }
+  }
+  else{
+    current_wifi_check_count++;
+  }
   timeClient.update();
 
   int hour = timeClient.getHours();
