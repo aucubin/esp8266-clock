@@ -42,7 +42,7 @@ void setup() {
   timeClient.begin();
 
   uint8_t data[] = {0xff, 0xff, 0xff, 0xff};
-  display.setBrightness(0x0f);
+  display.setBrightness(0);
   display.setSegments(data);
 }
 
