@@ -3,9 +3,10 @@
 #include <TZ.h>
 #include <PolledTimeout.h>
 #include <TM1637Display.h>
+#include "creds.h"
 
-const char *ssid = "ssid";
-const char *password = "password";
+const char *ssid = SSID;
+const char *password = WIFI_PASSWORD;
 
 const int clk_pin = D6;
 const int dio_pin = D5;
